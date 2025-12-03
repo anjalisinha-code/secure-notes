@@ -23,8 +23,8 @@ Repository – Persistence layer (Spring Data JPA + H2)
 1. Authentication
 Token-based authentication
 Expected header:
-Authorization: Bearer static-token-123
-Replace with JWT/OAuth2 in production
+  Authorization: Bearer static-token-123
+  Replace with JWT/OAuth2 in production
 
 2. AES-GCM Content Encryption
 AES-256-GCM with hex-encoded key
@@ -50,7 +50,7 @@ No secrets stored in code or configs.
 
 ▶️ How to Run
 Clone Repo → Set Env Vars → Build → Run
-1. clone the repo: https://github.com/anjalisinha-code/secure-notes-service.git
+1. clone the repo: https://github.com/anjalisinha-code/secure-notes.git
 2. Set environment variables
    export ENCRYPTTION_SECRET="00112233445566778899aabbccddeeff"
    export SECURITY_TOKEN="Bearer static-token-123"
@@ -60,7 +60,7 @@ Clone Repo → Set Env Vars → Build → Run
    ./mvnw spring-boot:run
 
 Application URL:
-://localhost:8080
+http://localhost:8080
 
 Swagger UI
 http://localhost:8080/swagger-ui.html
@@ -69,12 +69,12 @@ Click Authorize → enter:
 static-token-123
 
 📡 **API Endpoints**
-_Method	Path	        Description_
-POST	/notes	        Create note
-GET	    /notes/{id}	    Get note by ID
+_Method	 Path	           Description_
+POST	    /notes	        Create note
+GET	    /notes/{id}	  Get note by ID
 GET	    /notes	        List all notes
-PUT	    /notes/{id}	    Update note
-DELETE	/notes/{id}	    Delete note
+PUT	    /notes/{id}	  Update note
+DELETE	 /notes/{id}	  Delete note
 
 **📸 API Screenshot Gallery**
 A quick visual overview of the Secure Notes API in action.
