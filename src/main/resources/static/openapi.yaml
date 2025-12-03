@@ -1,0 +1,160 @@
+openapi: 3.0.3
+info:
+  title: Secure Notes API
+  version: 1.0.0
+  description: |
+    A simple REST API for secure notes.
+    Note content is stored encrypted in the database using AES-GCM.
+    All endpoints require a static Bearer token for demo purposes.
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /notes:
+    post:
+      summary: Create a new note
+      operationId: createNote
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NoteRequest'
+      responses:
+        '200':
+          description: Note created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoteResponse'
+        '400':
+          description: Validation error
+        '401':
+          description: Unauthorized
+
+    get:
+      summary: List all notes
+      operationId: listNotes
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of notes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NoteResponse'
+        '401':
+          description: Unauthorized
+
+  /notes/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+
+    get:
+      summary: Get a note by ID
+      operationId: getNote
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Note found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoteResponse'
+        '404':
+          description: Not found
+        '401':
+          description: Unauthorized
+
+    put:
+      summary: Update a note by ID
+      operationId: updateNote
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NoteRequest'
+      responses:
+        '200':
+          description: Note updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoteResponse'
+        '400':
+          description: Validation error
+        '404':
+          description: Not found
+        '401':
+          description: Unauthorized
+
+    delete:
+      summary: Delete a note by ID
+      operationId: deleteNote
+      security:
+        - bearerAuth: []
+      responses:
+        '204':
+          description: Deleted successfully
+        '404':
+          description: Not found
+        '401':
+          description: Unauthorized
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    NoteRequest:
+      type: object
+      required:
+        - title
+        - content
+      properties:
+        title:
+          type: string
+          example: My First Note
+        content:
+          type: string
+          example: This is a secret message
+
+    NoteResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        title:
+          type: string
+          example: My First Note
+        content:
+          type: string
+          example: This is a secret message
+        createdAt:
+          type: string
+          format: date-time
+          example: "2025-12-02T11:23:07.178Z"
+        updatedAt:
+          type: string
+          format: date-time
+          example: "2025-12-02T11:23:07.178Z"
